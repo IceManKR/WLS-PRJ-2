@@ -1,27 +1,34 @@
 import { withTransaction } from '../db/transaction.js'
 import {
-    getStoredResponse,
-    storeResponse,
+  getStoredResponse,
+  storeResponse,
 } from '../modules/idempotency/idempotency.service.js'
 
-export function idempotencyMiddleware(req,res,next){
-    const key=req.headers['idempotency-key']
+export async function idempotencyMiddleware(req, res, next) {
+  const key = req.headers['idempotency-key']
 
-    if(!key){
-        return next()
+  if (!key) {
+    return next()
+  }
+
+  try {
+    const existing = await withTransaction(async (client) => {
+      return await getStoredResponse(key, client)
+    })
+
+    if (existing) {
+      return res.status(200).json(existing.response)
     }
-    withTransaction(async(client)=>{
-        const existing =  await getStoredResponse(key,client)
-        if(existing){
-            res.status(200).json(exiising.response)
-            return
-        }
-        const originalJson=res.json.bind(res)
 
-        res.json=async (body)=>{
-            await storeResponse(key,body,client)
-            return originalJson(body)
-        }
-        next()
-    }).catch(next)
+    const originalJson = res.json.bind(res)
+
+    res.json = (body) => {
+      storeResponse(key, body).catch(console.error)
+      return originalJson(body)
+    }
+
+    next()
+  } catch (err) {
+    next(err)
+  }
 }

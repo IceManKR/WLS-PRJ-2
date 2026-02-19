@@ -13,9 +13,9 @@ export async function findByKey(key,client){
 export async function save(key,response,client){
     await client.query(
         `
-        INSET INTO idempotency_keys (key,response)
+        INSERT INTO idempotency_keys (key,response)
         VALUES ($1,$2)
         `,
-        [key.response]
+        [key, response]
     )
 }

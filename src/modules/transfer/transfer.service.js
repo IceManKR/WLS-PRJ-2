@@ -7,6 +7,7 @@ import {
     CurrencyMismatchError,
     InsufficientFundsError,
 } from '../../utils/errors.js'
+console.log("executeTransfer:", executeTransfer)
 
 export async function executeTransfer({
     fromWalletId,
@@ -65,7 +66,7 @@ export async function executeTransfer({
         )
         await ledgerRepo.insertLedgerEntry(
             {
-                walletdId:toWalletId,
+                walletId:toWalletId,
                 amount:amount,
                 type:'TRANSFER_CREDIT',
                 referenceId,
