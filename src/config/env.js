@@ -1,3 +1,8 @@
+import dotenv from 'dotenv'
+import { z } from 'zod'
+
+dotenv.config()
+
 const envSchema = z.object({
   PORT: z.preprocess((value) => {
     if (typeof value === 'string' && value.trim() !== '') {
