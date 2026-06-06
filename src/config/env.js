@@ -14,7 +14,12 @@ const envSchema = z.object({
   DATABASE_URL: z.string().min(1, 'DATABASE_URL must be provided'),
 })
 
-const parsedEnv = envSchema.parse(process.env)
+const envData = {
+  ...process.env,
+  DATABASE_URL: process.env.DATABASE_URL || process.env.DB_URL,
+}
+
+const parsedEnv = envSchema.parse(envData)
 
 export const config = {
   PORT: parsedEnv.PORT,

@@ -69,9 +69,9 @@ describe('Wallet Ledger API integration', () => {
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body)).toBe(true)
     expect(response.body.length).toBeLessThanOrEqual(3)
-    expect(response.body[0]).toEqual(expect.objectContaining({ type: 'TRANSFER_DEBIT' }))
-    expect(response.body[1]).toEqual(expect.objectContaining({ type: 'WITHDRAW_DEBIT' }))
-    expect(response.body[2]).toEqual(expect.objectContaining({ type: 'DEPOSIT_CREDIT' }))
+    expect(response.body[0]).toEqual(expect.objectContaining({ id: expect.any(String), type: 'TRANSFER_DEBIT', createdAt: expect.any(String) }))
+    expect(response.body[1]).toEqual(expect.objectContaining({ type: 'WITHDRAW_DEBIT', createdAt: expect.any(String) }))
+    expect(response.body[2]).toEqual(expect.objectContaining({ type: 'DEPOSIT_CREDIT', createdAt: expect.any(String) }))
   })
 
   test('insufficient funds returns error', async () => {

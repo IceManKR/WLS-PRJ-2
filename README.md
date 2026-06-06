@@ -31,7 +31,7 @@ PostgreSQL (Neon)
 npm install
 ```
 
-2. Copy `.env.example` to `.env` and set `DB_URL`.
+2. Copy `.env.example` to `.env` and set `DATABASE_URL`.
 
 3. Start the API:
 

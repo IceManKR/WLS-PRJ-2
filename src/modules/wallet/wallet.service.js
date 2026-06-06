@@ -41,10 +41,12 @@ export async function getWalletTransactions(id, { page = 1, limit = 20 } = {}) {
   }
   const rows = await ledgerRepo.getTransactions(id, limit, offset)
   return rows.map((r) => ({
+    id: r.id,
     type: r.type,
     amount: Number(r.amount),
     referenceId: r.referenceId,
     createdAt: r.createdAt,
+    created_at: r.createdAt,
     walletId: r.walletId,
   }))
 }
@@ -69,6 +71,7 @@ export async function getAllTransactions({ limit = 20 } = {}) {
     amount: Number(r.amount),
     referenceId: r.referenceId,
     createdAt: r.createdAt,
+    created_at: r.createdAt,
   }))
 }
 
