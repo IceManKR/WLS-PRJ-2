@@ -4,9 +4,11 @@
   "type": "module",
   "main": "src/server.js",
   "scripts": {
+    "start": "node src/server.js",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "dev": "node src/server.js",
     "dev:hot": "nodemon --watch src --exec node src/server.js",
+    "seed:demo": "node scripts/seed-demo.js",
     "smoke": "powershell -File ./scripts/smoke-test.ps1"
   },
   "repository": {
@@ -22,6 +24,7 @@
   "homepage": "https://github.com/IceManKR/WLS-PRJ-2#readme",
   "description": "",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^17.2.4",
     "express": "^5.2.1",
     "pg": "^8.18.0",

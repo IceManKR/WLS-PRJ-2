@@ -14,16 +14,30 @@ export async function insertLedgerEntry(
     )
 }
 
-export async function getTransactions(walletId, limit = 20, offset = 0){
+export async function getTransactions(walletId, limit = 20, offset = 0) {
     const res = await pool.query(
         `
-        SELECT type, amount, reference_id as referenceId, created_at as createdAt
+        SELECT wallet_id as walletId, type, amount, reference_id as referenceId, created_at as createdAt
         FROM ledger_entries
         WHERE wallet_id = $1
         ORDER BY created_at DESC
         LIMIT $2 OFFSET $3
         `,
         [walletId, limit, offset]
+    )
+
+    return res.rows
+}
+
+export async function getRecentTransactions(limit = 20) {
+    const res = await pool.query(
+        `
+        SELECT id, wallet_id as walletId, type, amount, reference_id as referenceId, created_at as createdAt
+        FROM ledger_entries
+        ORDER BY created_at DESC
+        LIMIT $1
+        `,
+        [limit]
     )
 
     return res.rows

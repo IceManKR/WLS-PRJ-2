@@ -132,6 +132,8 @@ describe('Wallet Ledger API integration', () => {
   })
 
   afterAll(async () => {
-    await pool.end()
+    if (pool && typeof pool.end === 'function') {
+      await pool.end()
+    }
   })
 })

@@ -36,6 +36,25 @@ export async function getWalletTransactionsController(req, res, next) {
     }
 }
 
+export async function getAllWalletsController(req, res, next) {
+    try {
+        const wallets = await walletService.getAllWallets()
+        res.status(200).json(wallets)
+    } catch (err) {
+        next(err)
+    }
+}
+
+export async function getAllTransactionsController(req, res, next) {
+    try {
+        const limit = req.validated?.query?.limit ?? parseInt(req.query.limit || '20', 10)
+        const transactions = await walletService.getAllTransactions({ limit })
+        res.status(200).json(transactions)
+    } catch (err) {
+        next(err)
+    }
+}
+
 export async function blockWalletController(req, res, next) {
     try {
         const { id } = req.params

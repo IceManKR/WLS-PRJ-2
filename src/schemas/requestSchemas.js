@@ -60,3 +60,9 @@ export const transactionHistorySchema = z.object({
     limit: parsePositiveInt.default(20),
   }),
 })
+
+export const transactionsListSchema = z.object({
+  query: z.object({
+    limit: parsePositiveInt.default(20),
+  }),
+})

@@ -53,6 +53,21 @@ export default {
         responses: { 200: { description: 'Transaction list' } },
       },
     },
+    '/wallets': {
+      get: {
+        summary: 'List all wallets',
+        responses: { 200: { description: 'Wallet list' } },
+      },
+    },
+    '/transactions': {
+      get: {
+        summary: 'List recent transactions',
+        parameters: [
+          { name: 'limit', in: 'query', schema: { type: 'integer', default: 20 } },
+        ],
+        responses: { 200: { description: 'Recent transactions' } },
+      },
+    },
     '/deposit': {
       post: {
         summary: 'Deposit into wallet',

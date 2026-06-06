@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <rect width="1200" height="720" fill="#111827" rx="24" />
+  <text x="50" y="90" fill="#ffffff" font-size="48" font-family="Inter, sans-serif">Transaction History</text>
+  <rect x="50" y="140" width="1100" height="520" fill="#1f2937" rx="20" />
+  <text x="70" y="200" fill="#9ca3af" font-size="24">Ledger records and transaction log</text>
+  <rect x="70" y="260" width="1060" height="360" fill="#0f172a" rx="18" />
+  <text x="90" y="320" fill="#fff" font-size="24">DEPOSIT_CREDIT • ₹10,000 • 2026-06-06</text>
+  <text x="90" y="370" fill="#fff" font-size="24">WITHDRAW_DEBIT • ₹200 • 2026-06-06</text>
+  <text x="90" y="420" fill="#fff" font-size="24">TRANSFER_DEBIT • ₹300 • 2026-06-06</text>
+</svg>
