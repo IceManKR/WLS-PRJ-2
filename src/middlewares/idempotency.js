@@ -1,34 +1,48 @@
+import { hashRequest } from '../utils/hash.js'
+import * as repo from '../modules/idempotency/idempotency.repo.js'
 import { withTransaction } from '../db/transaction.js'
-import {
-  getStoredResponse,
-  storeResponse,
-} from '../modules/idempotency/idempotency.service.js'
 
 export async function idempotencyMiddleware(req, res, next) {
   const key = req.headers['idempotency-key']
+  if (!key) return next()
 
-  if (!key) {
-    return next()
-  }
+  const requestHash = hashRequest(req.body)
 
   try {
-    const existing = await withTransaction(async (client) => {
-      return await getStoredResponse(key, client)
+    const inserted = await withTransaction(async (client) => {
+      return await repo.insertKey(key, requestHash, client)
     })
 
-    if (existing) {
-      return res.status(200).json(existing.response)
-    }
-
+    // If insert succeeded → first request
     const originalJson = res.json.bind(res)
 
-    res.json = (body) => {
-      storeResponse(key, body).catch(console.error)
+    res.json = async (body) => {
+      await withTransaction(async (client) => {
+        await repo.updateResponse(
+          key,
+          body,
+          res.statusCode,
+          client
+        )
+      })
+
       return originalJson(body)
     }
 
     next()
+
   } catch (err) {
+    // Duplicate key → already exists
+    if (err.code === '23505') {
+      const existing = await withTransaction(async (client) => {
+        return await repo.findByKey(key, client)
+      })
+
+      return res
+        .status(existing.status_code)
+        .json(existing.response)
+    }
+
     next(err)
   }
 }

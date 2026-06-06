@@ -7,7 +7,6 @@ import {
     CurrencyMismatchError,
     InsufficientFundsError,
 } from '../../utils/errors.js'
-console.log("executeTransfer:", executeTransfer)
 
 export async function executeTransfer({
     fromWalletId,

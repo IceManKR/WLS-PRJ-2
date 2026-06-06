@@ -41,3 +41,14 @@ export async function updateBalance(id, amountDelta, client){
         [id, amountDelta]
     )
 }
+
+export async function updateWalletStatus(id, status, client) {
+    await client.query(
+        `
+        UPDATE wallets
+        SET status = $2
+        WHERE id = $1
+        `,
+        [id, status]
+    )
+}
